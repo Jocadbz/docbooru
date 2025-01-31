@@ -33,7 +33,14 @@ fn generate_random_id(length int) !string {
 }
 
 fn save_file(file_path string) !bool {
-	id := generate_random_id(8)!
+	mut id := generate_random_id(8)!
+	id_list := os.ls("${os.config_dir()!}/docbooru/booru'")!
+	for {
+		if id !in id_list {
+			break
+		}
+		id = generate_random_id(8)!
+	}
 	// The hardest thing of this program btw
 	booru_directory := '${os.config_dir()!}/docbooru/booru'
 	// We print this because user testing showed people panic when we move files.
