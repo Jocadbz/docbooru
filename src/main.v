@@ -159,7 +159,7 @@ fn main() {
 		exit(0)
 	}
 	if os.args[1] == 'help' {
-		println("Docbooru - Command list
+		println("Docbooru v1.0.0 - Command list
 - add <file>
 Uploads a file to the database
 
