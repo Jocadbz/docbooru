@@ -34,7 +34,7 @@ fn generate_random_id(length int) !string {
 
 fn save_file(file_path string) !bool {
 	mut id := generate_random_id(8)!
-	id_list := os.ls("${os.config_dir()!}/docbooru/booru'")!
+	id_list := os.ls("${os.config_dir()!}/docbooru/booru")!
 	for {
 		if id !in id_list {
 			break
