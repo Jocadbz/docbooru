@@ -68,7 +68,7 @@ fn search_file(search_params string) !bool {
 	for id in all_files {
 		file_name := os.read_file('${booru_directory}/${id}/name')!
 		file_tags := os.read_file('${booru_directory}/${id}/tags')!
-		file_path := '${booru_directory}/${id}/${file_name}'
+		file_path := '${booru_directory}/${id}/file/${file_name}'
 		if has_all_matching_tags(search_params, file_tags) == true {
 			final_string += '-----------------
 ID: ${id} - Name: ${os.read_file('${booru_directory}/${id}/name')!}
@@ -130,7 +130,7 @@ fn list_file() !bool {
 	all_files := os.ls(booru_directory)!
 	for id in all_files {
 		file_name := os.read_file('${booru_directory}/${id}/name')!
-		file_path := '${booru_directory}/${id}/${file_name}'
+		file_path := '${booru_directory}/${id}/file/${file_name}'
 		final_string += '-----------------
 ID: ${id} - Name: ${os.read_file('${booru_directory}/${id}/name')!}
 Tags: ${os.read_file('${booru_directory}/${id}/tags')!}\n'
