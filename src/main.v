@@ -106,6 +106,24 @@ fn edit_file(filename string) !bool {
 	return false
 }
 
+fn open_file(id string) !bool {
+	booru_directory := '${os.config_dir()!}/docbooru/booru'
+	file_name := os.read_file('${booru_directory}/${id}/name')!
+	all_files := os.ls(booru_directory)!
+	if id !in all_files {
+		println("That file does not exist.")
+		exit(0)
+	}
+	if os.exists_in_system_path("xdg-open") == false {
+		println("Error: Docbooru can't find xdg-open")
+		exit(0)
+	}
+	os.system("xdg-open ${booru_directory}/${id}/file/\"${file_name}\"")
+	exit(0)
+
+	return false
+}
+
 fn remove_file(filename string) !bool {
 	booru_directory := '${os.config_dir()!}/docbooru/booru'
 	all_files := os.ls(booru_directory)!
@@ -159,7 +177,7 @@ fn main() {
 		exit(0)
 	}
 	if os.args[1] == 'help' {
-		println("Docbooru v1.0.0 - Command list
+		println("Docbooru v1.0.1 - Command list
 - add <file>
 Uploads a file to the database
 
@@ -174,6 +192,9 @@ Removes a file from the database
 
 - list
 List all files on the database
+
+- open <id>
+Opens a file with xdg-open
 ")
 		exit(0)
 	}
@@ -207,5 +228,11 @@ List all files on the database
 		remove_file(os.args[2])!
 	} else if os.args[1] == 'list' {
 		list_file()!
+	} else if os.args[1] == 'open' {
+		if os.args[2..] == [] {
+			println('You need to input a file')
+			exit(1)
+		}
+		open_file(os.args[2])!
 	}
 }
