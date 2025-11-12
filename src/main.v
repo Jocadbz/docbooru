@@ -4,9 +4,9 @@ import os
 import rand
 
 fn has_all_matching_tags(user_input string, content string) bool {
-	// Split the user input and content tags into arrays
-	user_tags := user_input.split(' ')
-	content_tags := content.split(' ')
+	// Normalize whitespace so comparisons ignore extra spaces or newlines
+	user_tags := user_input.fields()
+	content_tags := content.fields()
 
 	// Check if all user inputted tags are in content tags
 	for user_tag in user_tags {
@@ -71,8 +71,8 @@ fn search_file(search_params string) !bool {
 		file_path := '${booru_directory}/${id}/file/${file_name}'
 		if has_all_matching_tags(search_params, file_tags) == true {
 			final_string += '-----------------
-ID: ${id} - Name: ${os.read_file('${booru_directory}/${id}/name')!}
-Tags: ${os.read_file('${booru_directory}/${id}/tags')!}\n'
+ID: ${id} - Name: ${file_name}
+Tags: ${file_tags}\n'
 
 			final_string += 'Full path ${file_path}\n'
 		}
@@ -148,10 +148,11 @@ fn list_file() !bool {
 	all_files := os.ls(booru_directory)!
 	for id in all_files {
 		file_name := os.read_file('${booru_directory}/${id}/name')!
+		file_tags := os.read_file('${booru_directory}/${id}/tags')!
 		file_path := '${booru_directory}/${id}/file/${file_name}'
 		final_string += '-----------------
-ID: ${id} - Name: ${os.read_file('${booru_directory}/${id}/name')!}
-Tags: ${os.read_file('${booru_directory}/${id}/tags')!}\n'
+ID: ${id} - Name: ${file_name}
+Tags: ${file_tags}\n'
 
 		final_string += 'Full path ${file_path}\n'
 	}
